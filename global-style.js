@@ -53,6 +53,14 @@ const globalStyles = StyleSheet.create({
     color: "white",
     fontSize: 20,
   },
+  smallTextRedButton: {
+    color: "red",
+    fontSize: 20,
+  },
+  smallTextBlueButton: {
+    color: "#01DDFF",
+    fontSize: 20,
+  },
   midTextButton: {
     color: "white",
     fontSize: 25,

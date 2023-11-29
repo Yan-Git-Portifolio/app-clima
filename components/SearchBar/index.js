@@ -3,17 +3,19 @@ import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { globalStyles } from '../../global-style';
 import { styles } from './styles';
 import { FontAwesome } from '@expo/vector-icons';
-import { pegaDadosCep, pegaDadosCidade, pegaDadosPrevisao } from '../../utils/api';
+import { pegaDadosCepV2, pegaDadosCidade, pegaDadosPrevisao } from '../../utils/api';
 
 const SearchBar = (props) => {
   const { setCepData, setCityData, setPreviData, setIsLoading } = props;
   const [cep, setCep] = useState("");
+  const [searchDisable, setSearchDisable] = useState(false)
 
   const handleSearch = async () => {
     setIsLoading(true)
-    let cepData = await pegaDadosCep(cep)
+    setSearchDisable(true)
+    let cepData = await pegaDadosCepV2(cep)
     let cityData = await pegaDadosCidade(cepData.city)
-    let previData = await pegaDadosPrevisao(cityData[0].id, 1)
+    let previData = await pegaDadosPrevisao(cityData[0].id, 6)
     setInfos(cepData, cityData, previData)
   };
 
@@ -22,6 +24,7 @@ const SearchBar = (props) => {
     setCityData(await cityData);
     setPreviData(await previData);
     setIsLoading(false)
+    setSearchDisable(false)
   } 
 
   return (
@@ -36,6 +39,7 @@ const SearchBar = (props) => {
       <TouchableOpacity
         style={globalStyles.smallBtnNormal}
         onPress={handleSearch}
+        disabled={searchDisable}
       >
         <FontAwesome name="search" size={32} color="white" />
       </TouchableOpacity>

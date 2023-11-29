@@ -5,22 +5,49 @@ import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { styles } from './styles'
 
+const CONDITION_GROUPS = {
+  chuva: ['c', 'cm', 'cn', 'ct', 'ch', 't'],
+  nublado: ['ec', 'ci', 'in', 'np', 'pc', 'pn', 'n', 'nv', 'nd'],
+  pancadas: ['pp', 'pt', 'pm', 'pnt', 'psc', 'pcm', 'pct', 'pcn', 'npt', 'npn', 'ncn', 'nct', 'ncm', 'npm', 'npp', 'vn'],
+  neve_geada: ['g', 'ne'],
+  sol: ['ps', 'e', 'cl'],
+};
 
 const ViewPrevisao = (props) => {
-
   const { cepData, cityData, previData } = props;
 
-  function showIconCondicao() {
-    console.log(previData)
-    if (previData == undefined) {
-      return (
-        <Text>Erro</Text>
-      )
+  function renderIconByCondition(condition) {
+    const group = Object.entries(CONDITION_GROUPS).find(([groupName, conditions]) =>
+      conditions.includes(condition)
+    );
+
+    if (group) {
+      const [groupName] = group;
+      return getIconByGroup(groupName);
     }
-    if (previData?.clima[0]?.condicao == "c") {
-      return (
-        <FontAwesome5 name="cloud-rain" size={190} color={constantes.cores.complementColor} />
-      )
+
+    return <Text>Condição não mapeada</Text>;
+  }
+
+function getIconByGroup(groupName) {
+    switch (groupName) {
+      case 'chuva':
+        return <FontAwesome5 name="cloud-rain" size={190} color={constantes.cores.complementColor} />;
+        break;
+      case 'nublado':
+        return <FontAwesome5 name="cloud" size={190} color="#3D45E1" />;
+        break;
+      case 'pancadas':
+        return <FontAwesome5 name="cloud-showers-heavy" size={190} color={constantes.cores.complementColor} />;
+        break;
+      case 'neve_geada':
+        return <FontAwesome5 name="snowflake" size={190} color="#01E1C3" />;
+        break;
+      case 'sol':
+        return <FontAwesome5 name="sun" size={190} color="#DDE019" />;
+        break;
+      default:
+        return <Text>Condição não mapeada</Text>;
     }
   }
 
@@ -32,23 +59,23 @@ const ViewPrevisao = (props) => {
     }
     if (previData?.clima[0]?.indice_uv <= 2) {
       return (
-        <FontAwesome name="sun-o" size={75} color="green" />
+        <FontAwesome name="sun-o" size={80} color="green" />
       )
     } else if (previData?.clima[0]?.indice_uv <= 5) {
       return (
-        <FontAwesome name="sun-o" size={100} color="yellow" />
+        <FontAwesome name="sun-o" size={80} color="yellow" />
       )
     } else if (previData?.clima[0]?.indice_uv <= 7) {
       return (
-        <FontAwesome name="sun-o" size={100} color="orange" />
+        <FontAwesome name="sun-o" size={80} color="orange" />
       )
     } else if (previData?.clima[0]?.indice_uv <= 10) {
       return (
-        <FontAwesome name="sun-o" size={100} color="red" />
+        <FontAwesome name="sun-o" size={80} color="red" />
       )
     } else if (previData?.clima[0]?.indice_uv >= 11) {
       return (
-        <FontAwesome name="sun-o" size={100} color="purple" />
+        <FontAwesome name="sun-o" size={80} color="purple" />
       )
     }
   }
@@ -56,8 +83,8 @@ const ViewPrevisao = (props) => {
   return (
       <SafeAreaView style={styles.viewPrevisao}>
         <Text style={globalStyles.bigTextButton}>{cepData.city}</Text>
-        {showIconCondicao()}
-        <Text style={globalStyles.midTextButton}>{previData.clima[0].condicao_desc}</Text>
+        {renderIconByCondition(previData?.clima[0]?.condicao)}
+        <Text style={globalStyles.bigTextButton}>{previData.clima[0].condicao_desc}</Text>
         <View style={styles.infoPrevisao}>
           <View style={styles.infoTemp}>
             <FontAwesome name="thermometer-4" size={100} color="white" />
@@ -71,6 +98,7 @@ const ViewPrevisao = (props) => {
             </View>
           </View>
           {showIconUv()}
+          <Text style={globalStyles.bigTextButton}>{previData.clima[0].indice_uv}</Text>
         </View>
       </SafeAreaView>
   )

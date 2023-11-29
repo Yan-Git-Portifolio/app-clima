@@ -1,14 +1,28 @@
 import axios from "axios";
 
-async function pegaDadosCep(cep) {
+async function pegaDadosCepV2(cep) {
     try {
-      console.log("Pegando dados do cep")
+      console.log("Pegando dados do cepv2")
       const response = await axios.get(`https://brasilapi.com.br/api/cep/v2/${cep}`);
       return response.data;
     } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 500) {
+        return pegaDadosCepV1(cep)
+      }
       console.error('Erro ao obter dados do CEP:', error);
       throw error;
     }
+}
+
+async function pegaDadosCepV1(cep) {
+  try {
+    console.log("Pegando dados do cepv1")
+    const response = await axios.get(`https://brasilapi.com.br/api/cep/v1/${cep}`);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao obter dados do CEP:', error);
+    throw error;
+  }
 }
   
 
@@ -38,7 +52,7 @@ async function pegaDadosPrevisao(cityCode, days) {
   
 
 export {
-    pegaDadosCep,
+    pegaDadosCepV2,
     pegaDadosCidade,
     pegaDadosPrevisao
 }

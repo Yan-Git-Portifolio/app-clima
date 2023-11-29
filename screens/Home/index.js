@@ -4,22 +4,30 @@ import { globalStyles, constantes } from '../../global-style';
 import SearchBar from '../../components/SearchBar';
 import ViewPrevisao from '../../components/ViewPrevisao';
 import { FontAwesome5 } from '@expo/vector-icons';
+import MenorViewPrevisao from '../../components/MenorViewPrevisao';
 
 const Home = () => {
 
   const [cepData, setCepData] = useState(undefined)
   const [cityData, setCityData] = useState({})
   const [previData, setPreviData] = useState({})
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   function verificaLoading() {
     if (cepData == undefined) {
       return null
-    }
-    if (isLoading) {
-      return <FontAwesome5 name="search" size={250} color="white" />
+    } else if (isLoading) {
+      return <FontAwesome5 name="search" size={250} color="white"/>
     } else {
-      return <ViewPrevisao cepData={cepData} cityData={cityData} previData={previData}/>
+      return (
+        <ScrollView style={globalStyles.scroolView}>
+          <ViewPrevisao cepData={cepData} cityData={cityData} previData={previData}/>
+          <MenorViewPrevisao cepData={cepData} previData={previData} dia='2'/>
+          <MenorViewPrevisao cepData={cepData} previData={previData} dia='3'/>
+          <MenorViewPrevisao cepData={cepData} previData={previData} dia='4'/>
+          <MenorViewPrevisao cepData={cepData} previData={previData} dia='5'/>
+        </ScrollView>
+      )
     }
   }
 
@@ -31,9 +39,7 @@ const Home = () => {
         setPreviData={setPreviData}
         setIsLoading={setIsLoading}
       />
-      <ScrollView style={globalStyles.scroolView}>
       {verificaLoading()}
-      </ScrollView>
     </View>
   )
 }

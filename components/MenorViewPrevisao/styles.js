@@ -8,13 +8,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         width: "100%",
         gap: 5,
-        borderColor: "gray",
-        borderWidth: 5,
-        padding: 20,
-        borderLeftWidth: 0,
-        borderTopWidth: 0,
-        borderRightWidth: 0,
-        borderRadius: 20
+        marginTop: 25,
+        marginBottom: 25
     }, 
     infoPrevisao: {
         width: "80%",
