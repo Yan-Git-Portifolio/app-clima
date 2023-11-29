@@ -14,6 +14,11 @@ const SearchBar = (props) => {
     setIsLoading(true)
     setSearchDisable(true)
     let cepData = await pegaDadosCepV2(cep)
+    if (cepData.erro == false) {
+      setIsLoading(3)
+      setSearchDisable(false)
+      return;
+    }
     let cityData = await pegaDadosCidade(cepData.city)
     let previData = await pegaDadosPrevisao(cityData[0].id, 6)
     setInfos(cepData, cityData, previData)

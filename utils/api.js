@@ -9,6 +9,12 @@ async function pegaDadosCepV2(cep) {
       if (axios.isAxiosError(error) && error.response?.status === 500) {
         return pegaDadosCepV1(cep)
       }
+      if (axios.isAxiosError(error) && error.response?.status === 400) {
+        return {erro: false}
+      }
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        return {erro: false}
+      }
       console.error('Erro ao obter dados do CEP:', error);
       throw error;
     }
@@ -21,6 +27,7 @@ async function pegaDadosCepV1(cep) {
     return response.data;
   } catch (error) {
     console.error('Erro ao obter dados do CEP:', error);
+    return {erro: false}
     throw error;
   }
 }
