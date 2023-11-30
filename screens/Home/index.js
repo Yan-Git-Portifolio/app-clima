@@ -6,6 +6,7 @@ import ViewPrevisao from '../../components/ViewPrevisao';
 import { FontAwesome5 } from '@expo/vector-icons';
 import MenorViewPrevisao from '../../components/MenorViewPrevisao';
 import gifCarregamento from '../../assets/loading.gif'
+import iconePng from '../../assets/adaptive-icon.png'
 
 const Home = () => {
 
@@ -16,7 +17,14 @@ const Home = () => {
 
   function verificaLoading() {
     if (cepData == undefined) {
-      return null
+      return (
+        <View style={styles.container2}>
+          <Image source={iconePng} style={styles.icone} />
+          <Text style={globalStyles.midTextButton}>
+            Digite o CEP e veja as previsões aqui :)
+          </Text>
+        </View>
+      )
     } else if (isLoading == 3) {
       return (
         <View style={styles.container}>
@@ -61,9 +69,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  container2: {
+    width: "80%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   gif: {
     width: 200, 
     height: 200, 
+  },
+  icone: {
+    width: 300,
+    height: 300,
   },
 });
 

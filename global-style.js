@@ -64,6 +64,7 @@ const globalStyles = StyleSheet.create({
   midTextButton: {
     color: "white",
     fontSize: 25,
+    textAlign: "center"
   },
   bigTextButton: {
     color: "white",

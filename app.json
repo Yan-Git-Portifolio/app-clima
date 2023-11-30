@@ -21,10 +21,13 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.yan_miguel_siqueira.appclima"
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
+    "extra": {
+      "eas": {
+        "projectId": "355d3af9-9a70-46c5-a746-5bc549613c8f"
+      }
     }
   }
 }

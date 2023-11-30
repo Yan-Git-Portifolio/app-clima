@@ -13,6 +13,7 @@ const SearchBar = (props) => {
   const handleSearch = async () => {
     setIsLoading(true)
     setSearchDisable(true)
+    setCepData("finding");
     let cepData = await pegaDadosCepV2(cep)
     if (cepData.erro == false) {
       setIsLoading(3)
